@@ -11,7 +11,8 @@ using UnityEngine.UI;
 /// Name and Description
 /// As well as an option to be stacked and category it fits into
 /// </summary>
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/Item", order = 1)]
+[System.Serializable]
 public class Item : ScriptableObject
 {
     // The inventory image

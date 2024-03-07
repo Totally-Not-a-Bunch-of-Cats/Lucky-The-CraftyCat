@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tripwire Trap
   m_EditorClassIdentifier: 
   inventoryImage: {fileID: 21300000, guid: 74f138fed5ad14343b9e397d5bd4ad51, type: 3}
-  itemObject: {fileID: 0}
+  itemObject: {fileID: 1906181370818300715, guid: 3a56b85b67068bc42b9afbdee5001b64, type: 3}
   nameOfItem: Tripwire Trap
   categoryOfItem: 1
   descriptionOfItem: Trips ground enemies slowing their movement for a while

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shovel
   m_EditorClassIdentifier: 
   inventoryImage: {fileID: 21300000, guid: 46fe796b1c04ab3469c0f7b117793b9f, type: 3}
-  itemObject: {fileID: 0}
+  itemObject: {fileID: 1592526684177809234, guid: e0f4f4e5a8ecc454cbb0ed3fba1bbd9f, type: 3}
   nameOfItem: Shovel
   categoryOfItem: 2
   descriptionOfItem: Allows you to dig up dirt for resources

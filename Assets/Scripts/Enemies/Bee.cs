@@ -65,7 +65,6 @@ public class Bee : Enemy
         // Finds the player object in the scene when intialized
         player = GameObject.FindGameObjectWithTag("Player");
         // Finds the parent hive of the bee and gets the centerpoint for the bee to hover around
-        parentHive = gameObject.transform.parent.transform.parent.gameObject;
         centerPoint = parentHive.transform;
     }
 
@@ -80,6 +79,7 @@ public class Bee : Enemy
         // If the bee has been aggro
         if(isAngry)
         {
+            Debug.Log("is angry bee");
             // Bee moves towards the player model using the moveTowardsPlayer function in parent script
             gameObject.transform.eulerAngles = new Vector3(90, 180, 0);
             MoveTowardsPlayer(player, 1.5f);
@@ -99,7 +99,7 @@ public class Bee : Enemy
             }
         }
         // If the bee has made it back to the hive its back to start
-        if(gameObject.transform.position == new Vector3(parentHive.transform.position.x, parentHive.transform.position.y + 2, parentHive.transform.position.z))
+        if (gameObject.transform.position == new Vector3(parentHive.transform.position.x, parentHive.transform.position.y + 2, parentHive.transform.position.z))
         {
             returnToStart = false;
         }

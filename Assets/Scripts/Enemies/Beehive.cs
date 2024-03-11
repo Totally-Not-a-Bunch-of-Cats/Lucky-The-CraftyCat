@@ -25,9 +25,8 @@ public class Beehive : MonoBehaviour
     /// <summary>
     /// handles the bees getting angry and getting not angry.
     /// </summary>
-    private void Update()
+    private void FixedUpdate()
     {
-        Debug.Log(BeesCharging);
         if ((GameManager.instance.playerManager.PlayerLocation.position - transform.position).magnitude < DetectionRange && !BeesCharging)
         {
             BeesCharging = true;
@@ -37,6 +36,7 @@ public class Beehive : MonoBehaviour
         if(BeesCharging && (GameManager.instance.playerManager.PlayerLocation.position - transform.position).magnitude > DetectionRange)
         {
             Debug.Log("No Longer Getting angry");
+            ExclamationMark.GetComponent<TextMeshPro>().color = new Color(1, 1, 1);
             ExclamationMark.SetActive(false);
             BeesCharging = false;
             StopAllCoroutines();
@@ -54,7 +54,7 @@ public class Beehive : MonoBehaviour
     private void ActivateBees()
     {
         Debug.Log("active");
-        ExclamationMark.GetComponent<TextMeshPro>().color = new Color(255, 0, 0);
+        ExclamationMark.GetComponent<TextMeshPro>().color = new Color(1, 0, 0);
         BeesAngry = true;
         for (int i = 0; i <= bees.Length - 1; i++)
         {
@@ -66,7 +66,7 @@ public class Beehive : MonoBehaviour
     /// </summary>
     private void DeactivateBees()
     {
-        ExclamationMark.GetComponent<TextMeshPro>().color = new Color(255, 255, 255);
+        ExclamationMark.GetComponent<TextMeshPro>().color = new Color(1, 1, 1);
         ExclamationMark.SetActive(false);
         BeesAngry = false;
         for (int i = 0; i <= bees.Length - 1; i++)
@@ -77,13 +77,34 @@ public class Beehive : MonoBehaviour
     }
 
     /// <summary>
-    /// time until the bees get angry
+    /// Time until the bees get angry
     /// </summary>
     /// <returns></returns>
     IEnumerator GettingAngry()
     {
         ExclamationMark.SetActive(true);
+        StartCoroutine(MakeRed());
         yield return new WaitForSeconds(BeeAngerDelay);
         ActivateBees();
+    }
+
+    IEnumerator MakeRed()
+    {
+        float temp = .2f;
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
     }
 }

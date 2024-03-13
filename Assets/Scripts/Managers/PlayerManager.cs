@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] public float playerHealth = 100f;
     // Reference to the MovementScript
     [SerializeField] Movement movementScript;
+    //
+    [SerializeField] public Transform PlayerLocation;
 
     /// <summary>
     /// Start is called before the first frame update
@@ -22,5 +24,6 @@ public class PlayerManager : MonoBehaviour {
     {
         // Sets the size of the collision box based on the zoneOfControl variable
         movementScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
+        PlayerLocation = GameObject.FindGameObjectWithTag("Player").transform;
     }
 }

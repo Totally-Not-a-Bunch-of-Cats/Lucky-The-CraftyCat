@@ -1,4 +1,6 @@
+//Aaron Tweden 3/9/24
 using System.Collections;
+using TMPro;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,48 +12,99 @@ public class Beehive : MonoBehaviour
 {
     // List of Bees that hover around the beehive
     [SerializeField] private GameObject[] bees;
-    // Size of Zone of  Control of the Beehive
-    [SerializeField] private float zoneOfControl = 16.0f;
+    //time till the bees get angry
+    [SerializeField] private int BeeAngerDelay = 5;
+    [SerializeField] private int DetectionRange = 15;
+    //bool to check if the bees are angry
+    [SerializeField] private bool BeesAngry = false;
+    [SerializeField] private bool BeesCharging = false;
+    //indicator for angry
+    [SerializeField] private GameObject ExclamationMark;
+
 
     /// <summary>
-    /// Start is called before the first frame update
+    /// handles the bees getting angry and getting not angry.
     /// </summary>
-    void Start()
+    private void FixedUpdate()
     {
-        // Sets the size of the collision box based on the zoneOfControl variable
-        gameObject.GetComponent<BoxCollider>().size = new Vector3(zoneOfControl, 4, zoneOfControl);
-    }
-    
-    /// <summary>
-    /// When the Player Enters its zone of control make the bees angry
-    /// </summary>
-    /// <param name="other"> This is the object colliding looking for the player's collision box </param>
-    private void OnTriggerEnter(Collider other) {
-        // For each bee that is attached to the beehive
-        for(int i = 0; i <= bees.Length - 1; i++)
+        if ((GameManager.instance.playerManager.PlayerLocation.position - transform.position).magnitude < DetectionRange && !BeesCharging)
         {
-            // If the player is colliding with the box make the bees aggro
-            if(other == GameObject.FindGameObjectWithTag("Player").GetComponent<CapsuleCollider>())
-            {
-                bees[i].GetComponent<Bee>().SetisAngry(true);
-            }
+            BeesCharging = true;
+            Debug.Log("Getting Angry");
+            StartCoroutine(GettingAngry());
+        }
+        if(BeesCharging && (GameManager.instance.playerManager.PlayerLocation.position - transform.position).magnitude > DetectionRange)
+        {
+            Debug.Log("No Longer Getting angry");
+            ExclamationMark.GetComponent<TextMeshPro>().color = new Color(1, 1, 1);
+            ExclamationMark.SetActive(false);
+            BeesCharging = false;
+            StopAllCoroutines();
+        }
+        if(BeesAngry && (GameManager.instance.playerManager.PlayerLocation.position - transform.position).magnitude > DetectionRange)
+        {
+            Debug.Log("Bees Passified");
+            DeactivateBees();
         }
     }
 
     /// <summary>
-    /// When the Player Exits its zone of control makes the bees docile
+    /// Makes the bees aggressive and indicates to the player they are mad
     /// </summary>
-    /// <param name="other"> This is the object collding looking for the player's collision box</param>
-    private void OnTriggerExit(Collider other) {
-        // For each bee that is attached to the beehive
-        for(int i = 0; i <= bees.Length - 1; i++)
+    private void ActivateBees()
+    {
+        Debug.Log("active");
+        ExclamationMark.GetComponent<TextMeshPro>().color = new Color(1, 0, 0);
+        BeesAngry = true;
+        for (int i = 0; i <= bees.Length - 1; i++)
         {
-            // If the player has left the collision box of the beehive make the bees docile
-            if(other == GameObject.FindGameObjectWithTag("Player").GetComponent<CapsuleCollider>())
-            {
-                bees[i].GetComponent<Bee>().SetisAngry(false);
-                bees[i].GetComponent<Bee>().returnToStart = true;
-            }
+            bees[i].GetComponent<Bee>().SetisAngry(true);
         }
+    }
+    /// <summary>
+    /// makes the bees passive
+    /// </summary>
+    private void DeactivateBees()
+    {
+        ExclamationMark.GetComponent<TextMeshPro>().color = new Color(1, 1, 1);
+        ExclamationMark.SetActive(false);
+        BeesAngry = false;
+        for (int i = 0; i <= bees.Length - 1; i++)
+        {
+            bees[i].GetComponent<Bee>().SetisAngry(false);
+            bees[i].GetComponent<Bee>().returnToStart = true;
+        }
+    }
+
+    /// <summary>
+    /// Time until the bees get angry
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator GettingAngry()
+    {
+        ExclamationMark.SetActive(true);
+        StartCoroutine(MakeRed());
+        yield return new WaitForSeconds(BeeAngerDelay);
+        ActivateBees();
+    }
+
+    IEnumerator MakeRed()
+    {
+        float temp = .2f;
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
+        yield return new WaitForSeconds(1f);
+        ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
+        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
     }
 }

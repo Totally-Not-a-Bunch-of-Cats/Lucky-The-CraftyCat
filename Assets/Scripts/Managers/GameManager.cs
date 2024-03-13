@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     // Singleton Setup
     public static GameManager instance;
 
-    [SerializeField] private PlayerManager playerManager;
+    [SerializeField] public PlayerManager playerManager;
 
     /// <summary>
     /// On Awake create an instance of gamemanger or destroy if there is already a gamemanger in scene

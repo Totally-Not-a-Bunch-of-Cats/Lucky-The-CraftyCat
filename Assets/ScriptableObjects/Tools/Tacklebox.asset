@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tacklebox
   m_EditorClassIdentifier: 
   inventoryImage: {fileID: 21300000, guid: 1ac1f36ed1136be4993bdf6645ce7450, type: 3}
-  itemObject: {fileID: 0}
+  itemObject: {fileID: 1592526684177809234, guid: e0f4f4e5a8ecc454cbb0ed3fba1bbd9f, type: 3}
   nameOfItem: Tacklebox
   categoryOfItem: 2
   descriptionOfItem: Better chances for higher tier fish

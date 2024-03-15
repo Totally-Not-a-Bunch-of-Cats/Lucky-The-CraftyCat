@@ -6,7 +6,7 @@ using UnityEngine;
 public class StateController : MonoBehaviour
 {
 
-    State currentState;
+    EnemyState currentState;
     
     public PauseState pauseState = new();
     public SlideState slideState = new();
@@ -28,7 +28,7 @@ public class StateController : MonoBehaviour
         }
     }
 
-    public void ChangeState(State newState)
+    public void ChangeState(EnemyState newState)
     {
         currentState?.OnStateExit();
         currentState = newState;

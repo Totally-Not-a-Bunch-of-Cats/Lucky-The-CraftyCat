@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using UnityEngine;
 
-public class PauseState : State {
+public class PauseState : EnemyState {
     
-    public float cooldownTime =  1f;
+    public float cooldownTime =  .2f;
     private float startTime;
 
     protected override void OnEnter(){

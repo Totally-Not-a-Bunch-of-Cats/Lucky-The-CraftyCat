@@ -5,14 +5,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class SlimeWanderState : State
+public class SlimeWanderState : EnemyState
 {
 
     private int detectionRange = 5;
 
     private int wanderDistance = 3;
 
-    protected float movementSpeed = 0.001f;
+    protected float movementSpeed = 0.003f;
 
     private Transform playerLocation;
 
@@ -20,12 +20,14 @@ public class SlimeWanderState : State
 
     private Transform myLocation;
 
+
     protected override void OnEnter()
     {
-        destination = Random.insideUnitCircle.normalized * wanderDistance;
+        destination = Random.insideUnitSphere.normalized * wanderDistance;
+        destination.y = 0;
         playerLocation = GameManager.instance.playerManager.PlayerLocation;
         myLocation = sc.gameObject.transform;
-        destination.y = myLocation.position.y;
+        Debug.Log(destination);
     }
 
     protected override void OnUpdate()
@@ -36,7 +38,7 @@ public class SlimeWanderState : State
         }
         else if (myLocation.position == destination)
         {
-            sc.ChangeState(this);
+            sc.ChangeState(sc.pauseState);
         }
         else
         {

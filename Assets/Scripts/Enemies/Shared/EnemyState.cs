@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class State
+public abstract class EnemyState
 {
     protected StateController sc;
 
     public void OnStateEnter(StateController stateController)
     {
         // Code placed here will always run
-        Debug.Log("Entering state");
+        Debug.Log("Entering state " + this);
         sc = stateController;
         OnEnter();
     }
@@ -44,6 +44,7 @@ public abstract class State
     public void OnStateExit()
     {
         // Code placed here will always run
+        Debug.Log("Exiting state " + this);
         OnExit();
     }
 

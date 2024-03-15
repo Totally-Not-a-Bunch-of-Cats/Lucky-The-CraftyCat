@@ -20,8 +20,7 @@ public class PlayerManager : MonoBehaviour {
     /// <summary>
     /// Start is called before the first frame update
     /// </summary>
-    void Start()
-    {
+    private void Awake(){
         // Sets the size of the collision box based on the zoneOfControl variable
         movementScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
         PlayerLocation = GameObject.FindGameObjectWithTag("Player").transform;

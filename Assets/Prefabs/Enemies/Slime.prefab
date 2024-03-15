@@ -92,9 +92,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3733809931807822263}
-  - component: {fileID: 5699869094826922410}
   - component: {fileID: 5742348340375091285}
   - component: {fileID: 7946854143991532797}
+  - component: {fileID: 7391875384733797728}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -118,22 +118,6 @@ Transform:
   - {fileID: 4282983320631473937}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5699869094826922410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4576106175224530858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 962d951778903b745bcb50f0b38153c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 0.005
-  health: 100
-  damage: 25
-  player: {fileID: 0}
 --- !u!65 &5742348340375091285
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -182,3 +166,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &7391875384733797728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576106175224530858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43086630f056fe545a63ccecadcbb239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

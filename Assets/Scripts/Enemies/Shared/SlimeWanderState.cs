@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class SlimeWanderState : State {
-    
-    private float detectionRange = 5f;
+public class SlimeWanderState : State
+{
 
-    private float wanderDistance = 3f;
+    private int detectionRange = 5;
 
-    protected float movementSpeed = 0.1f;
+    private int wanderDistance = 3;
+
+    protected float movementSpeed = 0.001f;
 
     private Transform playerLocation;
 
@@ -18,19 +20,27 @@ public class SlimeWanderState : State {
 
     private Transform myLocation;
 
-    protected override void OnEnter(){
+    protected override void OnEnter()
+    {
         destination = Random.insideUnitCircle.normalized * wanderDistance;
         playerLocation = GameManager.instance.playerManager.PlayerLocation;
         myLocation = sc.gameObject.transform;
+        destination.y = myLocation.position.y;
     }
 
-    protected override void OnUpdate(){
-       if(Vector3.Distance(playerLocation.position,myLocation.position) <= detectionRange){
-        sc.ChangeState(sc.slideState);
-       }else if(myLocation.position == destination){
-        sc.ChangeState(this);
-       }else{
-        myLocation.position = Vector3.MoveTowards(myLocation.position,playerLocation.position,movementSpeed);
-       }
+    protected override void OnUpdate()
+    {
+        if (Vector3.Distance(playerLocation.position, myLocation.position) <= detectionRange)
+        {
+            sc.ChangeState(sc.slideState);
+        }
+        else if (myLocation.position == destination)
+        {
+            sc.ChangeState(this);
+        }
+        else
+        {
+            myLocation.position = Vector3.MoveTowards(myLocation.position, destination, movementSpeed);
+        }
     }
 }

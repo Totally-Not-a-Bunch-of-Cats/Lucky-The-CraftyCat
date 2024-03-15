@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SlideState : State {
-    [SerializeField] protected float movementSpeed = 0.2f;
+    [SerializeField] protected float movementSpeed = 0.005f;
 
     Vector3 playerLocation;
 
@@ -12,6 +13,7 @@ public class SlideState : State {
     protected override void OnEnter(){
         playerLocation = GameManager.instance.playerManager.PlayerLocation.position;
         transform = sc.gameObject.transform;
+        playerLocation.y = transform.position.y;
     }
 
     protected override void OnUpdate(){

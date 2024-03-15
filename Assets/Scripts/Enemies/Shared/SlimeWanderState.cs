@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class SlimeWanderState : EnemyState
 {
@@ -34,10 +29,11 @@ public class SlimeWanderState : EnemyState
     {
         if (Vector3.Distance(playerLocation.position, myLocation.position) <= detectionRange)
         {
-            sc.ChangeState(sc.slideState);
+            sc.ChangeState(sc.warningState);
         }
         else if (myLocation.position == destination)
         {
+            sc.pauseState.cooldownTime = .3f;
             sc.ChangeState(sc.pauseState);
         }
         else

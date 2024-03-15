@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StateController : MonoBehaviour
+public class StateController : MonoBehaviour 
 {
 
     EnemyState currentState;
@@ -11,6 +8,8 @@ public class StateController : MonoBehaviour
     public PauseState pauseState = new();
     public SlideState slideState = new();
     public SlimeWanderState slimeWanderState = new();
+
+    public WarningState warningState = new();
 
 
 

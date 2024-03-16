@@ -22,7 +22,7 @@ public class SlimeWanderState : EnemyState
         destination.y = 0;
         playerLocation = GameManager.instance.playerManager.PlayerLocation;
         myLocation = sc.gameObject.transform;
-        Debug.Log(destination);
+        destination += myLocation.position;
     }
 
     protected override void OnUpdate()

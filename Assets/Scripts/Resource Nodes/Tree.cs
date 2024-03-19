@@ -103,7 +103,7 @@ public class Tree : ResourceNode
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other) 
     {
-        if(other == GameObject.FindGameObjectWithTag("Player").GetComponent<CapsuleCollider>())
+        if (other == GameObject.FindGameObjectWithTag("Player").GetComponent<CapsuleCollider>())
         {
             playerInTrigger = true;
         }

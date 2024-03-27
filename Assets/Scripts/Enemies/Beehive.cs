@@ -27,15 +27,14 @@ public class Beehive : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
+        //get the magnitude, 
         if ((GameManager.instance.playerManager.PlayerLocation.position - transform.position).magnitude < DetectionRange && !BeesCharging)
         {
             BeesCharging = true;
-            Debug.Log("Getting Angry");
             StartCoroutine(GettingAngry());
         }
         if(BeesCharging && (GameManager.instance.playerManager.PlayerLocation.position - transform.position).magnitude > DetectionRange)
         {
-            Debug.Log("No Longer Getting angry");
             ExclamationMark.GetComponent<TextMeshPro>().color = new Color(1, 1, 1);
             ExclamationMark.SetActive(false);
             BeesCharging = false;
@@ -43,7 +42,6 @@ public class Beehive : MonoBehaviour
         }
         if(BeesAngry && (GameManager.instance.playerManager.PlayerLocation.position - transform.position).magnitude > DetectionRange)
         {
-            Debug.Log("Bees Passified");
             DeactivateBees();
         }
     }
@@ -53,13 +51,13 @@ public class Beehive : MonoBehaviour
     /// </summary>
     private void ActivateBees()
     {
-        Debug.Log("active");
         ExclamationMark.GetComponent<TextMeshPro>().color = new Color(1, 0, 0);
         BeesAngry = true;
         for (int i = 0; i <= bees.Length - 1; i++)
         {
             bees[i].GetComponent<Bee>().SetisAngry(true);
         }
+        GameManager.instance.playerManager.DamagePlayer(1);
     }
     /// <summary>
     /// makes the bees passive
@@ -93,18 +91,13 @@ public class Beehive : MonoBehaviour
         float temp = .2f;
         yield return new WaitForSeconds(1f);
         ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
-        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
         yield return new WaitForSeconds(1f);
         ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
-        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
         yield return new WaitForSeconds(1f);
         ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
-        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
         yield return new WaitForSeconds(1f);
         ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
-        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
         yield return new WaitForSeconds(1f);
         ExclamationMark.GetComponent<TextMeshPro>().color += new Color(0, -temp, -temp);
-        Debug.Log(ExclamationMark.GetComponent<TextMeshPro>().color);
     }
 }

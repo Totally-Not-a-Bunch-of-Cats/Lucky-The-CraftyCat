@@ -79,7 +79,6 @@ public class Bee : Enemy
         // If the bee has been aggro
         if(isAngry)
         {
-            Debug.Log("is angry bee");
             // Bee moves towards the player model using the moveTowardsPlayer function in parent script
             gameObject.transform.eulerAngles = new Vector3(90, 180, 0);
             MoveTowardsPlayer(player, 1.5f);

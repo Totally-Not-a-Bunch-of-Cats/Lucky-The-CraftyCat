@@ -43,9 +43,18 @@ public class Rock : ResourceNode
         {
             if(Input.GetButtonDown("Interact") && numberOfUses > 0)
             {
-                DecreaseNodeUses();
-                GenerateLoot();
+                //DecreaseNodeUses();
+                //GenerateLoot();
             }
+        }
+    }
+
+    public void Harvest()
+    {
+        if(numberOfUses > 0)
+        {
+            DecreaseNodeUses();
+            GenerateLoot();
         }
     }
 

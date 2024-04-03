@@ -10,13 +10,14 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] public float movementSpeed = 0.01f;
     // The height that the player can jump
     [SerializeField] public float jumpHeight = 2f;
-    // The health of the player
-    [SerializeField] public float playerHealth = 100f;
+    [SerializeField] public float HighJumpPower = 2f;
+    [SerializeField] public float LongJumpPower = 2f;
+    [SerializeField] public float GravityPower = 5f;
     // Reference to the MovementScript
-    [SerializeField] Movement movementScript;
+    [SerializeField] Movement MovementScript;
     //players transform
     public Transform PlayerLocation;
-    //number of hit a player can take
+    //number of hit a player can take before being sent home
     [SerializeField] int Health = 3;
 
     /// <summary>
@@ -25,8 +26,8 @@ public class PlayerManager : MonoBehaviour {
     void Start()
     {
         // Sets the size of the collision box based on the zoneOfControl variable
-        movementScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
         PlayerLocation = GameObject.FindGameObjectWithTag("Player").transform;
+        MovementScript = PlayerLocation.GetComponent<Movement>();
     }
     /// <summary>
     /// returns player HP

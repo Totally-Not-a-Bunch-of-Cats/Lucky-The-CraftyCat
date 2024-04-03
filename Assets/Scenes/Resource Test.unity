@@ -131,13 +131,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2392325022088542750, guid: 1e1378536e17574459c48b82dafed017, type: 3}
+      propertyPath: m_Drag
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2392325022088542750, guid: 1e1378536e17574459c48b82dafed017, type: 3}
+      propertyPath: m_Mass
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2392325022088542750, guid: 1e1378536e17574459c48b82dafed017, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3823848900162268730, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7007274690486237559, guid: 1e1378536e17574459c48b82dafed017, type: 3}
+      propertyPath: GroundObject
+      value: 
+      objectReference: {fileID: 133563586}
+    - target: {fileID: 7007274690486237559, guid: 1e1378536e17574459c48b82dafed017, type: 3}
+      propertyPath: Ground.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7463965978998554130, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.98
+      value: -4.9
       objectReference: {fileID: 0}
     - target: {fileID: 7463965978998554130, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_LocalPosition.y
@@ -145,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7463965978998554130, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 25.45
+      value: -6.8
       objectReference: {fileID: 0}
     - target: {fileID: 7463965978998554130, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_LocalRotation.w
@@ -180,6 +200,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e1378536e17574459c48b82dafed017, type: 3}
+--- !u!1 &133563586 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7373675902347657805, guid: 1e1378536e17574459c48b82dafed017, type: 3}
+  m_PrefabInstance: {fileID: 99584604}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &152956381
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +217,7 @@ GameObject:
   - component: {fileID: 152956384}
   - component: {fileID: 152956383}
   - component: {fileID: 152956382}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}

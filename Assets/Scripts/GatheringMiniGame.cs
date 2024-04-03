@@ -43,12 +43,10 @@ public class GatheringMiniGame : MonoBehaviour
         //the below if statments determine the direction of the handle
         if (Handle.transform.localPosition.x > HandleMaxRange)
         {
-            Debug.Log("Reversing");
             Reverse = true;
         }
         if (Handle.transform.localPosition.x < HandleMinRange)
         {
-            Debug.Log("noReverse");
             Reverse = false;
         }
     }

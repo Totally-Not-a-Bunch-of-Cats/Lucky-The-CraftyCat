@@ -10,7 +10,10 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     // Reference to PlayerManager
-    [SerializeField] PlayerManager playerStats;
+    [SerializeField] PlayerManager PlayerStats;
+    [SerializeField] Rigidbody PlayerBody;
+    [SerializeField] GameObject GroundObject;
+    [SerializeField] LayerMask Ground;
 
     // Checking for if the player is moving diagonal
     private bool vertical = false;
@@ -22,7 +25,8 @@ public class Movement : MonoBehaviour
     void Start()
     {
         // Sets the size of the collision box based on the zoneOfControl variable
-        playerStats = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerManager>();
+        PlayerStats = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerManager>();
+        PlayerBody = transform.GetComponent<Rigidbody>();
     }
 
     /// <summary>
@@ -31,7 +35,7 @@ public class Movement : MonoBehaviour
     void Update()
     {
         // When the user presses the w key or up arrow
-        if(Input.GetButton("Forward"))
+        if (Input.GetButton("Forward"))
         {
             Forward();
             vertical = true;
@@ -77,27 +81,33 @@ public class Movement : MonoBehaviour
         // When the user presses the space
         if(Input.GetButtonDown("Jump") && gameObject.transform.position.y == 1)
         {
+            CheckGround();
             Jump();
         }
 
         // When the user presses either shift
         if(Input.GetButton("Run"))
         {
-            Run();
+            
         }
         else
         {
-            playerStats.movementSpeed = 0.01f;
+            PlayerStats.movementSpeed = 0.01f;
         }
 
         // If the Player is moving at a horizontal
         if(horizontal && vertical)
         {
-            playerStats.movementSpeed = 0.005f;
+            PlayerStats.movementSpeed = 0.005f;
         }
         else
         {
-            playerStats.movementSpeed = 0.01f;
+            PlayerStats.movementSpeed = 0.01f;
+        }
+        //tossed the player into the ground
+        if(!CheckGround())
+        {
+            PlayerBody.AddForce(Vector3.down * PlayerStats.GravityPower, ForceMode.Acceleration);
         }
     }
 
@@ -106,8 +116,9 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Forward()
     {
-        Vector3 forwardTransform = new Vector3(0, 0, playerStats.movementSpeed);
-        gameObject.transform.position += forwardTransform;
+        //Vector3 forwardTransform = new Vector3(0, 0, playerStats.movementSpeed);
+        //gameObject.transform.position += forwardTransform;
+        PlayerBody.AddForce(transform.forward * 1000, ForceMode.Force);
     }
 
     /// <summary>
@@ -115,8 +126,9 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Backward()
     {
-        Vector3 backwardTransform = new Vector3(0, 0, -playerStats.movementSpeed);
-        gameObject.transform.position += backwardTransform;
+        //Vector3 backwardTransform = new Vector3(0, 0, -playerStats.movementSpeed);
+        //gameObject.transform.position += backwardTransform;
+        PlayerBody.AddForce(-transform.forward * 1000, ForceMode.Force);
     }
 
     /// <summary>
@@ -124,8 +136,9 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Left()
     {
-        Vector3 leftTransform = new Vector3(-playerStats.movementSpeed, 0, 0);
-        gameObject.transform.position += leftTransform;
+        //Vector3 leftTransform = new Vector3(-playerStats.movementSpeed, 0, 0);
+        //gameObject.transform.position += leftTransform;
+        PlayerBody.AddForce(new Vector3(-1, 0, 0) * 1000, ForceMode.Force);
     }
 
     /// <summary>
@@ -133,23 +146,38 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Right()
     {
-        Vector3 rightTransform = new Vector3(playerStats.movementSpeed, 0, 0);
-        gameObject.transform.position += rightTransform;
+        //Vector3 rightTransform = new Vector3(playerStats.movementSpeed, 0, 0);
+        //gameObject.transform.position += rightTransform;
+        PlayerBody.AddForce(new Vector3(1, 0, 0) * 1000, ForceMode.Force);
     }
 
     /// <summary>
-    /// Makes the player jump
+    /// Makes the player jump either a long jump or a high jump
     /// </summary>
     void Jump()
     {
-        gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * playerStats.jumpHeight, ForceMode.Impulse);
+        //standing jump
+        if(PlayerBody.velocity.magnitude < 5)
+        {
+            print("high Jump");
+            PlayerBody.AddForce(Vector3.up * 40, ForceMode.VelocityChange); //VelocityChange makes the jump up feel real powerful since it ignores mass
+        }
+        else
+        {
+            print("long Jump");
+            //ads forces up and in the direction the player is moving
+            Vector3 dir = PlayerBody.velocity.normalized; //direction vector
+            dir *= 2; //makes the lerch in the direction of travel more pronounced
+            dir.y = 1; //makes the player actualy jump up
+            PlayerBody.AddForce(dir * 2000, ForceMode.Impulse); //impulse force type becuase its a burst of moevemnt
+        }
     }
-
-    /// <summary>
-    /// Makes the player move at double speed
-    /// </summary>
-    void Run()
+    bool CheckGround()
     {
-        playerStats.movementSpeed = 0.02f;
+        if (Physics.CheckSphere(GroundObject.transform.position, .5f, Ground))
+        {
+            return true;
+        }
+        return false;
     }
 }

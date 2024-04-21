@@ -14,6 +14,15 @@ public class Movement : MonoBehaviour
     [SerializeField] Rigidbody PlayerBody;
     [SerializeField] GameObject GroundObject;
     [SerializeField] LayerMask Ground;
+    [SerializeField] float LocalSpeed;
+    [SerializeField] Vector3 DirectionOfMovement;
+    [SerializeField] bool DirectionOfMovementCheck = true;
+    [SerializeField] bool SpeedingUP = false;
+    [SerializeField] bool CheckDirectionBool = false;
+    [SerializeField] GameObject RunIdicator;
+    [SerializeField] bool DashDelayBool = false;
+    [SerializeField] bool SwipeDelayBool = false;
+    [SerializeField] Animator Animator;
 
     // Checking for if the player is moving diagonal
     private bool vertical = false;
@@ -27,6 +36,7 @@ public class Movement : MonoBehaviour
         // Sets the size of the collision box based on the zoneOfControl variable
         PlayerStats = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerManager>();
         PlayerBody = transform.GetComponent<Rigidbody>();
+        LocalSpeed = PlayerStats.Speed;
     }
 
     /// <summary>
@@ -34,6 +44,12 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (DirectionOfMovementCheck)
+        {
+            print("Called once");
+            DirectionOfMovementCheck = false;
+            StartCoroutine(PastDirection());
+        }
         // When the user presses the w key or up arrow
         if (Input.GetButton("Forward"))
         {
@@ -79,35 +95,49 @@ public class Movement : MonoBehaviour
         }
 
         // When the user presses the space
-        if(Input.GetButtonDown("Jump") && gameObject.transform.position.y == 1)
+        if(Input.GetButtonDown("Jump") && CheckGround()) 
         {
-            CheckGround();
             Jump();
         }
-
-        // When the user presses either shift
-        if(Input.GetButton("Run"))
+        //dash
+        if(Input.GetButtonDown("Dash") && !DashDelayBool)
         {
-            
+            DashDelayBool = true;
+            Dash();
         }
-        else
+        if (Input.GetButtonDown("invincible") && !SwipeDelayBool)
         {
-            PlayerStats.movementSpeed = 0.01f;
+            SwipeDelayBool = true;
+            TailSwipe();
         }
 
         // If the Player is moving at a horizontal
-        if(horizontal && vertical)
+        if (horizontal && vertical)
         {
-            PlayerStats.movementSpeed = 0.005f;
+            LocalSpeed = PlayerStats.Speed/2;
         }
         else
         {
-            PlayerStats.movementSpeed = 0.01f;
+            LocalSpeed = PlayerStats.Speed;
         }
         //tossed the player into the ground
         if(!CheckGround())
         {
             PlayerBody.AddForce(Vector3.down * PlayerStats.GravityPower, ForceMode.Acceleration);
+        }
+        //speed increase code kinda janky fix with state machiene
+        if (PlayerBody.velocity.normalized.x <= DirectionOfMovement.x + PlayerStats.NormalVectorSpeedBoostBuffer || 
+            PlayerBody.velocity.normalized.x >= -DirectionOfMovement.x + PlayerStats.NormalVectorSpeedBoostBuffer 
+            && PlayerBody.velocity.normalized.x != 0 && !CheckDirectionBool)
+        {
+            CheckDirectionBool = true;
+            SpeedingUP = true;
+            StartCoroutine(CheckDirection());
+        }
+        else
+        {
+            SpeedingUP = false;
+            RunIdicator.SetActive(false);
         }
     }
 
@@ -116,9 +146,7 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Forward()
     {
-        //Vector3 forwardTransform = new Vector3(0, 0, playerStats.movementSpeed);
-        //gameObject.transform.position += forwardTransform;
-        PlayerBody.AddForce(transform.forward * 1000, ForceMode.Force);
+        PlayerBody.AddForce(transform.forward * LocalSpeed, ForceMode.Force);
     }
 
     /// <summary>
@@ -126,9 +154,7 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Backward()
     {
-        //Vector3 backwardTransform = new Vector3(0, 0, -playerStats.movementSpeed);
-        //gameObject.transform.position += backwardTransform;
-        PlayerBody.AddForce(-transform.forward * 1000, ForceMode.Force);
+        PlayerBody.AddForce(-transform.forward * LocalSpeed, ForceMode.Force);
     }
 
     /// <summary>
@@ -136,9 +162,7 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Left()
     {
-        //Vector3 leftTransform = new Vector3(-playerStats.movementSpeed, 0, 0);
-        //gameObject.transform.position += leftTransform;
-        PlayerBody.AddForce(new Vector3(-1, 0, 0) * 1000, ForceMode.Force);
+        PlayerBody.AddForce(new Vector3(-1, 0, 0) * LocalSpeed, ForceMode.Force);
     }
 
     /// <summary>
@@ -146,32 +170,40 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Right()
     {
-        //Vector3 rightTransform = new Vector3(playerStats.movementSpeed, 0, 0);
-        //gameObject.transform.position += rightTransform;
-        PlayerBody.AddForce(new Vector3(1, 0, 0) * 1000, ForceMode.Force);
+        PlayerBody.AddForce(new Vector3(1, 0, 0) * LocalSpeed, ForceMode.Force);
     }
 
     /// <summary>
-    /// Makes the player jump either a long jump or a high jump
+    /// Makes the player jump high jump.
     /// </summary>
     void Jump()
     {
-        //standing jump
-        if(PlayerBody.velocity.magnitude < 5)
-        {
-            print("high Jump");
-            PlayerBody.AddForce(Vector3.up * 40, ForceMode.VelocityChange); //VelocityChange makes the jump up feel real powerful since it ignores mass
-        }
-        else
-        {
-            print("long Jump");
-            //ads forces up and in the direction the player is moving
-            Vector3 dir = PlayerBody.velocity.normalized; //direction vector
-            dir *= 2; //makes the lerch in the direction of travel more pronounced
-            dir.y = 1; //makes the player actualy jump up
-            PlayerBody.AddForce(dir * 2000, ForceMode.Impulse); //impulse force type becuase its a burst of moevemnt
-        }
+        print("Jump");
+        PlayerBody.AddForce(Vector3.up * PlayerStats.HighJumpPower, ForceMode.VelocityChange);
     }
+    /// <summary>
+    /// dashes the player in the direction of travel
+    /// </summary>
+    void Dash()
+    {
+        print("Dash");
+        PlayerBody.AddForce(PlayerBody.velocity.normalized * PlayerStats.DashDistance, ForceMode.VelocityChange);
+        StartCoroutine(DashDelay());
+    }
+
+    void TailSwipe()
+    {
+        print("Invic");
+        //makes player invunerable and plays an animation
+        SwipeDelayBool = false;
+        PlayerStats.Invincible = true;
+        StartCoroutine(InvincibleDelay());
+        StartCoroutine(InvincibleDuration());
+    }
+    /// <summary>
+    /// Checks to see if the player is touching the ground
+    /// </summary>
+    /// <returns></returns>
     bool CheckGround()
     {
         if (Physics.CheckSphere(GroundObject.transform.position, .5f, Ground))
@@ -179,5 +211,42 @@ public class Movement : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    IEnumerator PastDirection()
+    {
+        if(PlayerBody.velocity.normalized.x != 0)
+        {
+            DirectionOfMovement = PlayerBody.velocity.normalized;
+            yield return new WaitForSeconds(1f);
+        }
+        DirectionOfMovementCheck = true;
+    }
+
+    IEnumerator CheckDirection()
+    {
+        yield return new WaitForSeconds(5f);
+        if(SpeedingUP)
+        {
+            RunIdicator.SetActive(true);
+            LocalSpeed *= PlayerStats.SpeedMultiplier;
+            print("we are speeding");
+        }
+        CheckDirectionBool = false;
+    }
+    IEnumerator DashDelay()
+    {
+        yield return new WaitForSeconds(PlayerStats.DashDelay);
+        DashDelayBool = false;
+    }
+    IEnumerator InvincibleDelay()
+    {
+        yield return new WaitForSeconds(PlayerStats.InvincibleDelay);
+        DashDelayBool = false;
+    }
+    IEnumerator InvincibleDuration()
+    {
+        yield return new WaitForSeconds(PlayerStats.InvincibleDuration);
+        PlayerStats.Invincible = false;
     }
 }

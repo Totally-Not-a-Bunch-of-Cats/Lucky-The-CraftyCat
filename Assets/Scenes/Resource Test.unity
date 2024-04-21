@@ -133,11 +133,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2392325022088542750, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_Drag
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2392325022088542750, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_Mass
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2392325022088542750, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_IsKinematic
@@ -146,6 +146,10 @@ PrefabInstance:
     - target: {fileID: 3823848900162268730, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920488751272373587, guid: 1e1378536e17574459c48b82dafed017, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7007274690486237559, guid: 1e1378536e17574459c48b82dafed017, type: 3}
       propertyPath: GroundObject
@@ -1051,6 +1055,26 @@ PrefabInstance:
     - target: {fileID: 1415628320864173042, guid: ed5d7bd64ea8dcd468cead1cf9c2c067, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208317986366496727, guid: ed5d7bd64ea8dcd468cead1cf9c2c067, type: 3}
+      propertyPath: Speed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208317986366496727, guid: ed5d7bd64ea8dcd468cead1cf9c2c067, type: 3}
+      propertyPath: DashDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208317986366496727, guid: ed5d7bd64ea8dcd468cead1cf9c2c067, type: 3}
+      propertyPath: HighJumpPower
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208317986366496727, guid: ed5d7bd64ea8dcd468cead1cf9c2c067, type: 3}
+      propertyPath: LongJumpPower
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208317986366496727, guid: ed5d7bd64ea8dcd468cead1cf9c2c067, type: 3}
+      propertyPath: NormalVectorSpeedBoostBuffer
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7924664035174116590, guid: ed5d7bd64ea8dcd468cead1cf9c2c067, type: 3}
       propertyPath: m_LocalPosition.x
